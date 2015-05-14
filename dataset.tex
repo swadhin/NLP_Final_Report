@@ -1,3 +1,6 @@
 \section{Dataset Collection and Description}
 \label{sec:dataset}
-This is Dataset.
+\subsection{Crawler Development}
+To collect a large-scale dataset from Twitter, we developed a distributed crawling platform to parallelize the crawling process. The open-source tool Tweepy was utilized to use APIs from Twitter application development framework. Twitter has limited each account to send $150$ requests within a $15$-min time window. To speed up the crawling process, we created $7$ twitter accounts to send requests in parallel. Sarcastic tweet dataset consists of the recent $10k$ tweets containing hashtags \emph{\#sarcasm}. We collected comprehensible information for each tweet, including the tweeter, tweet text, post time, the count of favorites, the count of retweets, etc. From these tweets, we further collect information for each tweeter. For each Twitter, we collected its follower count, followee count, user ID, status count, the list of followers, the list of followees, etc.
+
+We have also used different 180 tweets annotated \cite{davidov10}, around 60k tweets \cite{tomas14} and also added different social information. Also describe a few more details.\todo{Please give more details about dataset consolidation.}\\ 
