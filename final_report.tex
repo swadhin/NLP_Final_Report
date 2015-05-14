@@ -1,0 +1,112 @@
+\documentclass[10pt,conference]{IEEEtran}
+
+\makeatletter
+\def\ps@headings{%
+\def\@oddhead{\mbox{}\scriptsize\rightmark \hfil \thepage}%
+\def\@evenhead{\scriptsize\thepage \hfil \leftmark\mbox{}}%
+\def\@oddfoot{}%
+\def\@evenfoot{}}
+\makeatother
+\pagestyle{headings}
+
+% Load basic packages
+
+\usepackage{amsmath}
+\usepackage{balance}  % to better equalize the last page
+\usepackage{graphicx}
+\usepackage{subfigure}
+\usepackage{graphics} % for EPS, load graphicx instead
+\usepackage{times}    % comment if you want LaTeX's default font
+\usepackage[hyphens]{url}      % llt: nicely formatted URLs
+\usepackage{array}
+\usepackage{enumerate}
+\usepackage{algorithm2e}
+\usepackage{color}
+\usepackage{comment}
+%\usepackage[bookmarks=false]{hyperref}
+
+
+\newcommand{\todo}[1]{\textcolor{red}{TODO: #1}\\}
+
+% llt: Define a global style for URLs, rather that the default one
+%  \makeatletter
+%  \def\url@leostyle{%
+%   \@ifundefined{selectfont}{\def\UrlFont{\sf}}{\def\UrlFont{\small\bf\ttfamily}}}
+%  \makeatother
+%  \urlstyle{leo}
+
+
+% To make various LaTeX processors do the right thing with page size.
+\def\pprw{8.5in}
+\def\pprh{11in}
+\special{papersize=\pprw,\pprh}
+\setlength{\paperwidth}{\pprw}
+\setlength{\paperheight}{\pprh}
+\setlength{\pdfpagewidth}{\pprw}
+\setlength{\pdfpageheight}{\pprh}
+
+% Make sure hyperref comes last of your loaded packages,
+% to give it a fighting chance of not being over-written,
+% since its job is to redefine many LaTeX commands.
+
+% \usepackage[pdftex]{hyperref}
+% \hypersetup{
+% pdftitle={SIGCHI Conference Proceedings Format},
+% pdfauthor={LaTeX},
+%   pdfkeywords={SIGCHI, proceedings, archival format},
+%   bookmarksnumbered,
+%   pdfstartview={FitH},
+%   colorlinks,
+%   citecolor=black,
+%   filecolor=black,
+%   linkcolor=black,
+%   urlcolor=black,
+%   breaklinks=true,
+% }
+
+% create a shortcut to typeset table headings
+\newcommand\litem[1]{\item{\bfseries#1\space:\space}}
+\newcommand\tabhead[1]{\small\textbf{#1}}
+\newcommand{\squeezeup}{\vspace{-3mm}}
+\renewcommand{\labelitemi}{$\bullet$}
+\renewcommand{\labelitemii}{$\cdot$}
+\renewcommand{\labelitemiii}{$\diamond$}
+\renewcommand{\labelitemiv}{$\ast$}
+%\newcommand{\todo}[1]{\textcolor{red}{TODO: #1}}
+
+\begin{document}
+\title{Sarcasm Detection in Twitter}
+%: Semi-Supervised Recognition of Sarcastic Sentences
+%in Twitter and Amazon (CoNLL '10)}
+
+\author{\IEEEauthorblockN{Swadhin Pradhan, Jian He}
+\IEEEauthorblockA{CS, The University of Texas at Austin}}
+% \IEEEauthorblockA{\IEEEauthorrefmark{2}CSE Department, Indian Institute of Technology Kharagpur, India}
+% \IEEEauthorblockA{\IEEEauthorrefmark{3}CS Department, SUNY Korea}}
+
+
+\date{20 April 2015}
+
+\maketitle
+
+%\renewcommand{\baselinestretch}{0.9}
+
+%\input{abstract}
+\input{introduction}
+%\input{eeg_primer}
+%\input{methodology}
+\input{related}
+\input{dataset}
+\input{features}
+\input{methodology}
+\input{evaluation}
+\input{future}
+%\input{emoapp}
+%\input{path_forward}
+%\input{related_work}
+\input{conclusion}
+
+\bibliographystyle{abbrv}
+{\footnotesize\bibliography{final_report}}
+
+\end{document}

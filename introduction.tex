@@ -1,0 +1,61 @@
+\section{Introduction}
+\todo{Abstract to be added}
+\todo{Section reorientation also needed}
+
+\noindent \textbf{Motivation :} Sarcasm is a form of speech act in which the speakers convey their message in an
+implicit way. Sarcasm generally reverses the polarity of an utterance from positive or negative into its opposite. This inherently ambiguous nature of sarcasm sometimes makes it hard even for humans to decide whether an utterance is sarcastic or not. So, recognition of sarcasm can benefit many sentiment analysis NLP applications, such as review summarization,dialogue systems and review ranking systems \cite{Liu_survey}. Even recently FBI was also interested to find sarcastic tweets \cite{fbi_sarcasm} to improve their sentiment mining system.\\
+
+\noindent \textbf{Related Work :} Experiments with semi-supervised sarcasm identification on a Twitter dataset (5.9 million tweets) were conducted in \cite{davidov10}. They used 5-fold cross validation on their kNN-like classifier and obtained an F-measure of 0.55 on the Twitter dataset. In this paper \cite{davidov10}, authors use a semi-supervised sarcasm identification algorithm on a Twitter dataset and Amazon product reviews. In case of Twitter, authors mainly use $1500$ tweets containing \textit{\#sarcasm} hashtag and $180$ tweets tagged by $15$ Amazon Mechanical Turkers \cite{mturk} as golden test set or initial small labeled training set. The algorithm employs two modules: semi supervised pattern acquisition for identifying sarcastic patterns that serve as features for a classifier, and a classification stage that classifies each sentence to a sarcastic class. Reyes et al. \cite{reyes12} proposed features to capture properties of a figurative language such as ambiguity, polarity, unexpectedness and emotional scenarios. Their corpus consists of five categories (humor, irony, politics, technology and general), each containing 10,000 tweets. The best result in the classification of
+irony and general tweets was F-measure 0.65. The work of Riloff et al. \cite{riloff13} identifies one type of sarcasm: contrast between a positive sentiment and negative situation. They used a bootstrapping algorithm to acquire lists of positive sentiment phrases and negative situation phrases from sarcastic tweets. Their evaluation on a human-annotated dataset of 3000 tweets (23\% sarcastic) was done using the SVM classifier with uni-grams and bigrams as features, achieving an F-measure of 0.48. Tomas et. al. \cite{tomas14} also tried to employ different combinations of machine learning approaches using language independent specific feature set on Czech and English Twitter dataset (780,000 tweets) and achieved F-measure around 0.94.\\
+
+\noindent \textbf{Dataset Collection and Description :} To collect a large-scale dataset from Twitter, we developed a distributed crawling platform to parallelize the crawling process. The open-source tool Tweepy was utilized to use APIs from Twitter application development framework. Twitter has limited each account to send $150$ requests within a $15$-min time window. To speed up the crawling process, we created $7$ twitter accounts to send requests in parallel. Sarcastic tweet dataset consists of the recent $10k$ tweets containing hashtags \emph{\#sarcasm}. We collected comprehensible information for each tweet, including the tweeter, tweet text, post time, the count of favorites, the count of retweets, etc. From these tweets, we further collect information for each tweeter. For each Twitter, we collected its follower count, followee count, user ID, status count, the list of followers, the list of followees, etc.
+ 
+Please mention about Tweepy, Twitter rate limit, and creating 7 twitter accounts and corresponding apps for crawling. We have also used different 180 tweets annotated \cite{davidov10}, around 60k tweets \cite{tomas14} and also added different social information. Also describe a few more details.\\
+
+\noindent \textbf{Discussion on Sarcastic Tweets: }Based on our observations, sarcastic tweets reveal both independent and dependent features. Generally, independent features characterize lexical or syntactic structures of tweets no matter who posted
+them and what the content or topic of them is. While social network specific characteristics can reveal dependencies among tweets to some extent.
+
+Lexical structures indicate similarities of using words or characters in raw text of tweets. The frequencies of punctuation, stopwords and slang represent one aspect of lexical structures. We explicitly utilize the occurrence of emoticons which are very closely related to sentiment representation of tweets. Moreover, hashtags and URLs are special lexicons in tweets, and they are possibly used to clarify the information conveyed in a sarcastic tweet. Some common phrases may be used to reverse the polarity of an utterance. Language models (such as Bigram, Trigram) are efficient ways to find out these phrases. Although twitter users think independently when updating their statues, certain level of similarities in lexical structures are expected to see due to their common intentions to represent sarcasms to their friends.
+
+Compared with normal tweets, more complicated syntactic structures may appear in sarcastic tweets so that implicit meaning of them can be understood by others. The complexity of a syntactic tree can be represented by the number of nodes in the tree, the fraction of words appeared in the syntactic tree and the total words in tweet texts, etc. Syntactic complexity is an indicator of how easily the information of a tweet can be understood. Conventionally, sarcastic tweets convey messages implicitly, which possibly complicates syntactic structures.
+
+Messages in social networks somewhat show some dependencies. On one hand, when people talk about a specific entity (such as a person, a movie, etc.), they tend to describe their opinions in similar ways. And we can always see common sentiments for some entities. For example, when someone wants to comment a movie, posting a sarcastic message can possibly invoke others' interests in following that message. Named entities represent the target or topic of a tweet. After recognizing named entities appeared in tweets, we are able to classify tweets into different types. For example, tweets about general events (such as weather) and tweets targeting at specific entities (like movies, actors, etc). Moreover, common sentiments towards specific entities can also possibly improve the accuracy of classification. The sentiment of the whole tweet is considered as the sentiment of named entities in that tweet. The number of named entities in a tweet also represents the intention that a user wants to convey complex messages. On the other hand, the social strength of a tweet can be defined as the number of favorites, retweets, the number of followers and followees the poster has. Generally, social strength can be considered as a factor which measures others' interests in a tweet. Posting sarcastic tweets is an efficient way to attract others' attention. Thus, tweets having higher social strength tend to be more likely sarcastic tweets. Exploiting dependencies can cluster tweets into several types having common properties. 
+
+
+%Discuss in detail about different types of sarcastic tweets. My intuition says we may have seen mainly two types of sarcastic tweets : about general events (e.g. I like Mondays) and about named entity specific (e.g. I like Justin Beiber). Substantiate with clustering of tweets and trying different number of clusters with clustering functions.
+\todo{Add some figures and Examples}\\
+
+\noindent \textbf{Methodology :}
+We need to describe our methodology and give some example of features.
+
+
+\noindent \textbf{Features :}
+\begin{itemize}
+ \item Lexical Features
+ \begin{itemize}
+  \item Punctuation Frequencies
+  \item Stopwords and Slang
+  \item Emoticon Frequencies
+  \item Capitalization
+  \item Number of Hashtags and URLs
+  \item Length of Sentence
+ \end{itemize}
+
+ \item Syntactic Features
+  \begin{itemize}
+  \item Relative frequencies of different POS tags (Tweebank and Tweeboparser)
+  \item Cluster of POS Tags
+  \item Fraction of words having syntactic function generated by syntactic trees of Tweeboparser
+  \item Number of unique dependency root trees or inner nodes in trees of Tweeboparser
+  \item Sentiment of the tweets using sentinet and Sentiment of hashtags
+ \end{itemize}
+ \item Social Features
+  \begin{itemize}
+  \item Named Entity and corresponding sentiment (comparing with the sentence sentiment)
+  \item Strength of the tweet handlers (Favcount, Folower count, Folowee count etc.)
+ \end{itemize}
+\end{itemize}
+
+\todo{We can also do Feature strength analysis using PCA}
+
+

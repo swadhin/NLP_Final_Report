@@ -1,0 +1,53 @@
+\section{Our Proposed Approach}
+\label{sec:evaluation}
+\noindent \textbf{Limitations of the Paper to be addressed :}
+\begin{enumerate}
+ \item Even the authors had 5.9 million tweets, they can only effectively use 1500 tweets as secondary training/test set and only 180 tweets as primary training/test set. Moreover, they achieve very poor precision of 0.545 in secondary dataset. So, in this project, we aim to crawl at least 10 thousand sarcastic tweets using Twitter's official search APIs via Tweepy \cite{tweepy} library. As there is rate limit to the apps per account in Twitter, we have already created multiple accounts to crawl in parallel to achieve the goal. If possible, we also hope to employ Amazon Mechanical Turk for data labelling and evaluation.
+ \item In the paper, authors have not used any baseline for Twitter dataset as the semantic gap principle can not be easily adopted in case of Twitter. We aim to create a baseline for the Twitter dataset from this principle or some other recent work to compare our system's performance.
+ \item Authors reduced the feature set for better pattern matching but they claim the better performance in Twitter dataset in second experiment is due to more number of features. So, the removal of hashtags, links etc. may reduce the context information (universal knowledge) in already restricted tweets of $140$ characters. We plan to gather the context information from the profile centric information of the users like follows, mentions, re-tweets, favorites, profile description, previous tweets etc. We believe that if we train any system with such context information then it will give better result in sarcasm detection as any kind of sarcasm assumes some sort of world knowledge.
+ \item Interestingly, authors did not pursuit the idea of \textit{target} named entity in tweets as they did it in Amazon reviews. But, we believe that some classes of sarcastic tweets actually aimed at entities (e.g. may be person or institution or event or show) and if we can extract the sentiment regarding that we can get good indication of sarcasm. Moreover, some classes of sarcastic tweets may be general saying which is common across some classes of users (e.g. \textit{Yeah, I like Mondays more than my girlfriend}).
+ \item Moreover, we can also use the lexical/morphological features like adding for example features based on latent semantics, topic models etc. to improve the accuracy, which the authors did not use. We may look at the effect of underlying social graph structure on the sarcastic nature of a particular tweet. Because, the social graph leaks the interest and expertise of the user and can hint at the tendencies of sarcasm to specific entities.\\
+\end{enumerate}
+
+\noindent \textbf{Main Idea :} In the discussed paper and all other relevant works, authors have attempted to classify tweets as an independent entity without incorporating the notion of world knowledge in some form. So, our intuition is that if we look into the user profile (In Twitter, some accounts are dedicated sarcastic fake accounts), his previous tweets, specific hashtags, specific mentions and the general sentiments of the named entities used in the tweet (e.g. \textit{Janet Jackson}, \textit{Twilight} the movie etc.), we can get more hints of the sarcastic nature of the tweets. Because, the restriction nature of tweets makes the outside contextual, temporal, and semantics meaning more important.\\
+
+\noindent \textbf{Evaluation Plan :}
+We have already collected the tweet sarcasm dataset used in \cite{davidov10} but it will not be readily used because the lack of any outside information. Moreover, we have also started to crawl \textit{Twitter} using search string \textit{\#sarcasm}, \textit{\#sarcastictweet}, and \textit{sarcasmimplied} via search API using tweepy\cite{tweepy} and collected around five thousand tweets. Thus, we plan to collect a reasonable amount of tweet with corresponding tweet centric information (like Geo IDs, Device IDs etc.), profile information, and one hop follower/followee information. Next, we plan to process all user, URL, hashtag, mention, emoticons of tweets according to the model of sarcasm detection mechanism. Tokenization of tweets requires proper handling of emoticons and other special character sequences
+typical on Twitter which can be achieved using the ark-tweet-nlp tool \cite{gimpel11}. We also plan to extract named entity using Stanford Named Entity Recognition (NER) and also extract the sentiment about the entity collating all previous tweets about that entity. Next, we will try to use supervised machine learning algorithms like SVM, unsupervised algorithm like k-means clustering etc. with tuned and curated feature set. Finally, we will measure precision, recall, F-measure with different subset of features and investigate different trade-offs. 
+\begin{table*}[htb]
+%\renewcommand{\arraystretch}{1.9}
+  \centering
+  {\small
+    %\vspace{-0.1in}
+  \begin{tabular}{|@{~}l@{~~}|@{~~}l@{~}|@{~~}l@{~}|@{~~}l@{~}|@{~~}l@{~}|@{~~}l@{~}|@{~~}l@{~}|}
+\hline
+Dataset & Method Used & Precision & Recall & F1-Score & Area under Curve (AUC) & Testing Runtime \\\hline
+Bag-of-Words & SVM & $88.9$ & $86.64$ & $24.03$ & $3.00$ & $7.05$ sec. \\\hline
+Bigram & SVM & $99.87$ & $92.75$ & $33.01$ & $3.00$ & $83.6$ sec. \\\hline
+Trigram & SVM & $99.88$ & $94.29$ & $48.77$ & $3.00$ & $87.43$ sec. \\\hline
+Only Lexical Feature & SVM & $86.08$ & $78.27$ & $37.84$ & $15.32$ & $5$ min. $30$ sec. \\\hline
+Only Syntactic Feature & SVM & $98.56$ & $79.41$ & $47.54$ & $15.32$ & $611$ min. $47$ sec.\\\hline
+Only Social Feature & SVM & $99.13$ & $88.68$ & $78.97$ & $15.32$ & $591$ min. $23$ sec. \\\hline
+All Features & SVM & $88.58$ & $83.18$ & $39.60$ & $11.40$ & $25$ min. $41$ sec. \\\hline
+Bag-of-Words & Logicboost & $88.9$ & $86.64$ & $24.03$ & $3.00$ & $7.05$ sec. \\\hline
+Bigram & Logicboost & $99.87$ & $92.75$ & $33.01$ & $3.00$ & $83.6$ sec. \\\hline
+Trigram & Logicboost & $99.88$ & $94.29$ & $48.77$ & $3.00$ & $87.43$ sec. \\\hline
+Only Lexical Feature & Logicboost & $86.08$ & $78.27$ & $37.84$ & $15.32$ & $5$ min. $30$ sec. \\\hline
+Only Syntactic Feature & Logicboost & $98.56$ & $79.41$ & $47.54$ & $15.32$ & $611$ min. $47$ sec.\\\hline
+Only Social Feature & Logicboost & $99.13$ & $88.68$ & $78.97$ & $15.32$ & $591$ min. $23$ sec. \\\hline
+All Features & Logicboost & $88.58$ & $83.18$ & $39.60$ & $11.40$ & $25$ min. $41$ sec. \\\hline
+Bag-of-Words & Bagging & $88.9$ & $86.64$ & $24.03$ & $3.00$ & $7.05$ sec. \\\hline
+Bigram & Bagging & $99.87$ & $92.75$ & $33.01$ & $3.00$ & $83.6$ sec. \\\hline
+Trigram & Bagging & $99.88$ & $94.29$ & $48.77$ & $3.00$ & $87.43$ sec. \\\hline
+Only Lexical Feature & Bagging & $86.08$ & $78.27$ & $37.84$ & $15.32$ & $5$ min. $30$ sec. \\\hline
+Only Syntactic Feature & Bagging & $98.56$ & $79.41$ & $47.54$ & $15.32$ & $611$ min. $47$ sec.\\\hline
+Only Social Feature & Bagging & $99.13$ & $88.68$ & $78.97$ & $15.32$ & $591$ min. $23$ sec. \\\hline
+All Features & Bagging & $88.58$ & $83.18$ & $39.60$ & $11.40$ & $25$ min. $41$ sec. \\\hline
+%\vspace{-0.15in}
+\end{tabular}
+  }
+ \vspace{0.05in}
+  \caption{Summary of Results for running SVM, Boosting, and Bagging with different feature sets on datasets.}
+%\vspace{-0.25in}
+  \label{tab:data1}
+\end{table*}
