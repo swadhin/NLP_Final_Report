@@ -23,11 +23,13 @@
 \usepackage{algorithm2e}
 \usepackage{color}
 \usepackage{comment}
+\usepackage{amsthm}
+
 %\usepackage[bookmarks=false]{hyperref}
 
 
 \newcommand{\todo}[1]{\textcolor{red}{TODO: #1}\\}
-
+\newtheorem{mydef}{Definition}
 % llt: Define a global style for URLs, rather that the default one
 %  \makeatletter
 %  \def\url@leostyle{%
@@ -76,7 +78,7 @@
 %\newcommand{\todo}[1]{\textcolor{red}{TODO: #1}}
 
 \begin{document}
-\title{SSD : Supervised Sarcasm Detection in Twitter using Social Cues}
+\title{SSD : Supervised Sarcasm Detection in Twitter}
 %: Semi-Supervised Recognition of Sarcastic Sentences
 %in Twitter and Amazon (CoNLL '10)}
 
@@ -97,6 +99,7 @@
 %\input{eeg_primer}
 %\input{methodology}
 \input{related}
+\input{problem}
 \input{dataset}
 \input{discussion}
 \input{features}

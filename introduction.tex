@@ -1,66 +1,32 @@
 \section{Introduction}
-In recent years, social media sites such as Twitter have gained immense popularity and importance. These sites have
+\textbf{Motivation :} In recent years, social media sites such as Twitter have gained immense popularity and importance. These sites have
 evolved into large platforms where users express their ideas and opinions freely. Companies leverage this unique
 ecosystem to tap into public opinion on their products or services and to provide real-time customer assistance. With the high velocity and volume of social media data, companies rely on tools such as HootSuite\footnote{https://hootsuite.com/}, to analyze data and to provide customer service. These tools perform tasks such as content management, sentiment analysis, and extraction of relevant messages for the company's customer service representatives to respond to. However, these tools lack the sophistication to decipher more nuanced forms of language such as sarcasm or humor, in which the meaning of a message is not always obvious and explicit.\\
 
-Our goal in this study is to tackle the difficult problem of sarcasm detection on Twitter. Sarcasm can be defined as  \textit{the activity of saying or writing the opposite of what you mean, or of speaking in a way intended to make someone
-else feel stupid or show them that you are angry} (Macmillan English Dictionary (2007)). While sarcasm detection
+Our goal in this project is to tackle the difficult problem of sarcasm detection on Twitter. While sarcasm detection
 is inherently challenging, the style and nature of content on Twitter further complicate the process. Compared to other,
-more conventional sources such as news articles and novels, Twitter is (1) more informal in nature with an evolving vo-
-cabulary of slang words and abbreviations and (2) has a limit of $140 $characters per tweet which provides fewer word level
-cues and adds more ambiguity. To put the problem in a perspective, a few examples of sarcastic tweets from our experimental datsets are given below: 
+more conventional sources such as news articles and novels, Twitter is (1) more informal in nature with an evolving vocabulary of slang words and abbreviations and (2) has a limit of $140 $characters per tweet which provides fewer word level
+cues and adds more ambiguity. However, it also different side channels to get some information about the context of a particular tweet like different hashtags, mentions, profile information, general sentiment of the named entities in tweets etc. To put the problem in a perspective, a few examples of sarcastic tweets from our experimental datasets are given below:
+\begin{enumerate}
+ \item \textit{Oh wow broken up 4 days and you've moved on already, thanks, don't feel like shit at all. \#sarcasm}.\\
+ \item \textit{No my roommate play out of tune Zeppelin songs right outside my door isnt annoying. Not at all \#sarcasm \#sigh}.\\
+ \item \textit{Wow! @TWCable\_NYC Thanks for the option of high speed internet at \$5 a month or 6 months free to save \$$0.30$ depending on the plan. \#sarcasm}.\\
+ \item \textit{Man, Robinson Cano could be the laziest MVP ever \#sarcasm \#bigtimesarcasm}.\\
+ \item \textit{20 minutes of laundry at 1 am. Awesome \#sarcasm}.\\
+ \item \textit{Love walking through your cloud of cigarette smoke. Why buy my own pack when I can just inhale yours \#sarcasm}.\\
+ \item \textit{Is everyone as excited about the \#GOP and \#Democrat conventions as I am?!? \#sarcasm \#serioussarcasm \#deepyawningmawofsarcaam}.\\
+\end{enumerate}
 
-\noindent \textbf{Motivation :} Sarcasm is a form of speech act in which the speakers convey their message in an
-implicit way. Sarcasm generally reverses the polarity of an utterance from positive or negative into its opposite. This inherently ambiguous nature of sarcasm sometimes makes it hard even for humans to decide whether an utterance is sarcastic or not. So, recognition of sarcasm can benefit many sentiment analysis NLP applications, such as review summarization,dialogue systems and review ranking systems \cite{Liu_survey}. Even recently FBI was also interested to find sarcastic tweets \cite{fbi_sarcasm} to improve their sentiment mining system.\\
+\textbf{Our Approach :} Current research on sarcasm detection on Twitter \cite{riloff13,davidov10,tomas14,gonzalez_acl} has primarily focused on obtaining information from the text of the tweets. These techniques treat sarcasm as a linguistic phenomenon, with limited emphasis on the socio-contextual aspects of sarcasm. However, sarcasm has been extensively studied in psychological and behavioral sciences and theories explaining when, why, and how sarcasm is expressed have been established. All these works point that sarcasm is bound with broader common knowledge (e.g., about news or celebrities), the context known only to the author or author's opinion.\\
+Hence, to follow a systematic approach, we first use and extend different lexical and syntactic features used in \cite{riloff13,davidov10,tomas14,gonzalez_acl} to capture the literal form of sarcasm. We explicitly utilize the occurrence of punctuation, stop words, slang, and emoticons which are very closely related to sentiment representation of tweets. Although twitter users think independently when updating their statuses, certain level of similarities in lexical structures are expected. Secondly, compared with normal tweets, more complicated syntactic structures may appear in sarcastic tweets so that implicit meaning of them can be understood by others. Syntactic complexity is an indicator of how easily the information of a tweet can be understood. Conventionally, sarcastic tweets convey messages implicitly, which possibly complicates syntactic structures. Finally and most importantly, we get different socio-contextual information from the information follower, followee, retweets, mentions etc. which represent the social context of the user and the tweet. So, we combine these features to train a supervised learning algorithm to detect sarcasm. We have collected sarcastic tweets with corresponding socio-contextual information using \#sarcasm hashtag and also later consolidated the dataset upto 75,253 tweets consisting 38,112 sarcastic tweets by getting tweets from the publicly available tweet ids from the authors of {riloff13,davidov10,tomas14}. We used SVM and ensemble technique like Logitboost or bagging to get the best F1-score of 0.9746 using this feature set in the above dataset.\\ 
 
-\noindent \textbf{Dataset Collection and Description :} To collect a large-scale dataset from Twitter, we developed a distributed crawling platform to parallelize the crawling process. The open-source tool Tweepy was utilized to use APIs from Twitter application development framework. Twitter has limited each account to send $150$ requests within a $15$-min time window. To speed up the crawling process, we created $7$ twitter accounts to send requests in parallel. Sarcastic tweet dataset consists of the recent $10k$ tweets containing hashtags \emph{\#sarcasm}. We collected comprehensible information for each tweet, including the tweeter, tweet text, post time, the count of favorites, the count of retweets, etc. From these tweets, we further collect information for each tweeter. For each Twitter, we collected its follower count, followee count, user ID, status count, the list of followers, the list of followees, etc.
- 
-Please mention about Tweepy, Twitter rate limit, and creating 7 twitter accounts and corresponding apps for crawling. We have also used different 180 tweets annotated \cite{davidov10}, around 60k tweets \cite{tomas14} and also added different social information. Also describe a few more details.\\
-
-\noindent \textbf{Discussion on Sarcastic Tweets: }Based on our observations, sarcastic tweets reveal both independent and dependent features. Generally, independent features characterize lexical or syntactic structures of tweets no matter who posted
-them and what the content or topic of them is. While social network specific characteristics can reveal dependencies among tweets to some extent.
-
-Lexical structures indicate similarities of using words or characters in raw text of tweets. The frequencies of punctuation, stopwords and slang represent one aspect of lexical structures. We explicitly utilize the occurrence of emoticons which are very closely related to sentiment representation of tweets. Moreover, hashtags and URLs are special lexicons in tweets, and they are possibly used to clarify the information conveyed in a sarcastic tweet. Some common phrases may be used to reverse the polarity of an utterance. Language models (such as Bigram, Trigram) are efficient ways to find out these phrases. Although twitter users think independently when updating their statues, certain level of similarities in lexical structures are expected to see due to their common intentions to represent sarcasms to their friends.
-
-Compared with normal tweets, more complicated syntactic structures may appear in sarcastic tweets so that implicit meaning of them can be understood by others. The complexity of a syntactic tree can be represented by the number of nodes in the tree, the fraction of words appeared in the syntactic tree and the total words in tweet texts, etc. Syntactic complexity is an indicator of how easily the information of a tweet can be understood. Conventionally, sarcastic tweets convey messages implicitly, which possibly complicates syntactic structures.
-
-Messages in social networks somewhat show some dependencies. On one hand, when people talk about a specific entity (such as a person, a movie, etc.), they tend to describe their opinions in similar ways. And we can always see common sentiments for some entities. For example, when someone wants to comment a movie, posting a sarcastic message can possibly invoke others' interests in following that message. Named entities represent the target or topic of a tweet. After recognizing named entities appeared in tweets, we are able to classify tweets into different types. For example, tweets about general events (such as weather) and tweets targeting at specific entities (like movies, actors, etc). Moreover, common sentiments towards specific entities can also possibly improve the accuracy of classification. The sentiment of the whole tweet is considered as the sentiment of named entities in that tweet. The number of named entities in a tweet also represents the intention that a user wants to convey complex messages. On the other hand, the social strength of a tweet can be defined as the number of favorites, retweets, the number of followers and followees the poster has. Generally, social strength can be considered as a factor which measures others' interests in a tweet. Posting sarcastic tweets is an efficient way to attract others' attention. Thus, tweets having higher social strength tend to be more likely sarcastic tweets. Exploiting dependencies can cluster tweets into several types having common properties. 
-
-
-%Discuss in detail about different types of sarcastic tweets. My intuition says we may have seen mainly two types of sarcastic tweets : about general events (e.g. I like Mondays) and about named entity specific (e.g. I like Justin Beiber). Substantiate with clustering of tweets and trying different number of clusters with clustering functions.
-\todo{Add some figures and Examples}\\
-
-\noindent \textbf{Methodology :}
-We need to describe our methodology and give some example of features.
-
-
-\noindent \textbf{Features :}
+\noindent We make the following contributions in this project:
 \begin{itemize}
- \item Lexical Features
- \begin{itemize}
-  \item Punctuation Frequencies
-  \item Stopwords and Slang
-  \item Emoticon Frequencies
-  \item Capitalization
-  \item Number of Hashtags and URLs
-  \item Length of Sentence
- \end{itemize}
-
- \item Syntactic Features
-  \begin{itemize}
-  \item Relative frequencies of different POS tags (Tweebank and Tweeboparser)
-  \item Cluster of POS Tags
-  \item Fraction of words having syntactic function generated by syntactic trees of Tweeboparser
-  \item Number of unique dependency root trees or inner nodes in trees of Tweeboparser
-  \item Sentiment of the tweets using sentinet and Sentiment of hashtags
- \end{itemize}
- \item Social Features
-  \begin{itemize}
-  \item Named Entity and corresponding sentiment (comparing with the sentence sentiment)
-  \item Strength of the tweet handlers (Favcount, Folower count, Folowee count etc.)
- \end{itemize}
+ \item We have created a Twitter dataset of reasonable amount of tweets with relevant socio-contextual information.
+ \item To the best of our knowledge, we have employed sophisticated syntactic and social features to capture the context to better detect sarcasm. This approach can help in building language independent sarcasm detector.\\
 \end{itemize}
 
-\todo{We can also do Feature strength analysis using PCA}
+In Sec. \ref{sec:related}, we review related sarcasm detection research. In Sec. \ref{sec:problem}, we formally define sarcasm detection on Twitter. In Sec. \ref{sec:dataset}, we discuss dataset collection procedure in detail and then we discuss the nature of different sarcastic tweets. In Sec. \ref{sec:features} we discuss different feature set and in Sec. \ref{sec:methodology} we describe the methodology employed in sarcasm detection. Next, in Sec. \ref{sec:evaluation}, we present experimental setup and different evaluation results. Finally, in Sec. \ref{sec:future} and Sec. \ref{sec:conclusion}, we conclude with different possible future directions.
+
 
 
