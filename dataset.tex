@@ -10,7 +10,7 @@ The whole dataset is divided into three parts: tweets information, user profiles
 
 Table \ref{tab:tweet information} shows the format of a tweet information record. Note that, we only list the information we have used in our experiments. A tweet record in our dataset also includes other information, such as user device, geo-location, etc. 
 
-A user profile record consists of the user name, followers count, followees count and status count. 
+A user profile record consists of the user name, followers count, followees count and status count. Table \ref{tab:user profile} illustrates the format for a user profile record. Details of the user social relationship dataset can be seen in Table \ref{tab:social relationship}.
 
 \begin{table}[htpb]
 \centering
@@ -32,4 +32,15 @@ User Name & Followers Count & Followees Count & Status Count \\
 \end{tabular}
 \caption{Format for user profile dataset.}
 \label{tab:user profile}
+\end{table}
+
+\begin{table}[htpb]
+\centering
+\begin{tabular}{|c|c|c|}
+\hline
+User Name & Follower1, Follower2, $\cdots$ & Followee1, Followee2, $\cdots$ \\
+\hline
+\end{tabular}
+\caption{Format for user social relationship dataset.}
+\label{tab:social relationship}
 \end{table}
