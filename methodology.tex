@@ -1,5 +1,6 @@
 \section{Methodology and Experiment Setup}
 \label{sec:methodology}
+In this section, we will discuss in detail about umderlying working priniciples of SSD and different evaluation setups.
 \subsection{Classifier Description}
 We have initally attempted to train the system with simple unigram (bag of words), bigram, and tigram language model trained with $70\%$ of the tweets and testing with randomly selected $30\%$ of the tweets. For this binary classification task, we habe used SVM \cite{libsvm} with linear kernel and different ensemble techniques of boosting and bagging. Since we have a wide variety of features, we experimented with various ensemble learning techniques and found that LogitBoost performed best
 empirically for boosting and bagging with SVM performed best for bagging technique. We used the Weka implementation of LogitBoost \cite{Friedman98} and EnsembleSVM for bagging \cite{ensembleSVM} to train a classifier using various combinations of features. We have used Decision Stumps as a base classifier in LogicBoost and ran boosting for 100 iterations. Furthermore, 
