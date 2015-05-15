@@ -1,7 +1,22 @@
 \section{Methodology and Experiment Setup}
 \label{sec:methodology}
 \subsection{Classifier Description}
-Please give details of classifiers used in this project.
+The n-gram and PCFG language models were used
+to create a set of additional document features. We
+used the probability assigned by the language models
+to each sentence in a test document to calculate
+document-wide statistics such as the mean, maximum,
+and minimum probability and standard deviation
+in probabilities of the set of sentences in an article
+
+We use SVM \cite{libsvm} and SVM with bagging \cite{ensembleSVM}
+Since we have a wide variety of features, we
+experimented with various ensemble learning techniques
+and found that LogitBoost performed best
+empirically. We used the Weka implementation of LogitBoost \cite{Friedman98} to train a classi-
+fier using various combinations of features. We used
+Decision Stumps as a base classifier and ran boosting
+for 500 iterations.
 
 \subsection{Experiment Setup}
 
